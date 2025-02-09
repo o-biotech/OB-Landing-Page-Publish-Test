@@ -107,7 +107,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.event.organization.name }}-${{ github.event.repository.name }}-${{ github.run_id }}
+          name: ${{ github.event.organization.name }}-${{ github.event.repository.name }}
           path: ${{ env.Output }}
           overwrite: true
 
