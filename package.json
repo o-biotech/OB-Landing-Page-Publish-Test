@@ -1,7 +1,7 @@
 {
-  "name": "tmp-cpa",
+  "name": "@o-biotech/OB-Landing-Page-Publish-Test",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
   "description": "Plasmic app for tMDE8XdMkE6i6k4qtGC7ZV",
   "keywords": [
     "gatsby"
