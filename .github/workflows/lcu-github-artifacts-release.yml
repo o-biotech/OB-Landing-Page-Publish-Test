@@ -5,6 +5,8 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  repository_dispatch:
+    types: [plasmic]  
   workflow_dispatch:
 
 permissions: write-all
@@ -15,7 +17,7 @@ env:
   MainBranch: main
   NPMRegistry: https://registry.npmjs.org/
   InstallCommand: npm i
-  DeployCommand: npm run deploy
+  BuildCommand: npm run build
   Organization: o-biotech
   Repository: OB-Landing-Page-Publish-Test
   Output: ./public
@@ -102,8 +104,8 @@ jobs:
 
        # build & publish npm packages to npmjs.org
       - name: npm build & publish
-        if: ${{ !!env.DeployCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
-        run: ${{ env.DeployCommand }}
+        if: ${{ !!env.BuildCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
+        run: ${{ env.BuildCommand }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -134,4 +136,4 @@ jobs:
           webhook_secret: ${{ secrets.LCU_WEBHOOK_SECRET }}
           data: '{ "EnterpriseLookup": "${{ secrets.LCU_ENTERPRISE_LOOKUP }}", "Username": "${{ secrets.LCU_USERNAME }}" }'
 
-          
+
