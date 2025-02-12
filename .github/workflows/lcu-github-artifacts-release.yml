@@ -101,6 +101,11 @@ jobs:
       - name: npm install
         if: ${{ !!env.InstallCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
         run: ${{ env.InstallCommand }}
+        
+      # Build npm
+      - name: npm build
+        if: ${{ !!env.BuildCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
+        run: ${{ env.BuildCommand }}
 
       # bump version and push tag
       - name: Bump version and push tag
