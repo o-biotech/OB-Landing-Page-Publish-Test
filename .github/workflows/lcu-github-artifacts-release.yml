@@ -17,7 +17,7 @@ env:
   MainBranch: main
   NPMRegistry: https://registry.npmjs.org/
   InstallCommand: npm i
-  BuildCommand: npm run build
+  BuildCommand: npm run deploy
   Organization: o-biotech
   Repository: OB-Landing-Page-Publish-Test
   Output: ./public
@@ -87,12 +87,12 @@ jobs:
       - name: replace tag text for dev branches
         if: ${{ steps.vars.outputs.branchName != env.MainBranch && steps.package_json_exists.outputs.files_exists == 'true' }}
         shell: pwsh
-        run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.branchName }}" | Set-Content -Path package.json
+        run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.tagName }}" | Set-Content -Path package.json
 
       - name: replace version text for dev branches
         if: ${{ steps.vars.outputs.branchName != env.MainBranch && steps.package_json_exists.outputs.files_exists == 'true' }}
         shell: pwsh
-        run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.branchName }} --no-git-tag-version -f" | Set-Content -Path package.json
+        run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.tagName }} --no-git-tag-version -f" | Set-Content -Path package.json
 
       # run npm commands
       - uses: actions/setup-node@v2
@@ -122,7 +122,7 @@ jobs:
           WITH_V: false
           DRY_RUN: false
       - run: echo "New version is ${{ steps.versionBump.outputs.new_tag }}"
-
+  
       # Copy package.json to Output directory
       - name: Copy package.json to output directory
         run: cp package.json ${{ env.Output }}/package.json
