@@ -45,8 +45,10 @@ jobs:
           if [ "$branch" == "${{ env.MainBranch }}" ]
           then
               echo "::set-output name=versionBump::minor"
+              echo "::set-output name=tagName::latest"
           else
               echo "::set-output name=versionBump::patch"
+              echo "::set-output name=tagName::$branch"
           fi
 
       - run: |
@@ -124,7 +126,7 @@ jobs:
         if: ${{ !!env.BuildCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
         run: |
           cd ${{ env.Output }}
-          npm publish --tag ${{ steps.versionBump.outputs.new_tag }}
+          npm publish --tag ${{ steps.vars.outputs.tagName }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
