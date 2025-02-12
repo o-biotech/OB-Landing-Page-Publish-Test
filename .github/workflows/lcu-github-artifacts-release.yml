@@ -123,6 +123,10 @@ jobs:
           DRY_RUN: false
       - run: echo "New version is ${{ steps.versionBump.outputs.new_tag }}"
 
+      # Copy package.json to Output directory
+      - name: Copy package.json to output directory
+        run: cp package.json ${{ env.Output }}/package.json
+      
       # Build & publish npm packages to npmjs.org
       - name: npm build & publish
         if: ${{ !!env.BuildCommand && steps.package_json_exists.outputs.files_exists == 'true' }}
