@@ -12,7 +12,9 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "deploy": "npm version patch && npm run deploy:app",
+    "deploy:app": "npm version patch --prefix public && npm run build"
   },
   "dependencies": {
     "@plasmicapp/loader-gatsby": "^1.0.377",
