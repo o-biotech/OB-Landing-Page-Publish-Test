@@ -41,6 +41,8 @@ jobs:
           branch=${GITHUB_REF##*/}
 
           echo ::set-output name=branchName::$branch
+
+          sanitized_branch=$(echo "$branch" | sed 's|^feature/||')
            
           if [ "$branch" == "${{ env.MainBranch }}" ]
           then
@@ -48,7 +50,7 @@ jobs:
               echo "::set-output name=tagName::latest"
           else
               echo "::set-output name=versionBump::patch"
-              echo "::set-output name=tagName::$branch"
+              echo "::set-output name=tagName::$sanitized_branch"
           fi
 
       - run: |
